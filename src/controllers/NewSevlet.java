@@ -1,9 +1,7 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,19 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Task_DTO;
-import utils.DBUtil_DAO;
 
 /**
- * Servlet implementation class IndexServlet
+ * Servlet implementation class NewSevlet
  */
-@WebServlet("/index")
-public class IndexServlet extends HttpServlet {
+@WebServlet("/new")
+public class NewSevlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public IndexServlet() {
+    public NewSevlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,16 +30,12 @@ public class IndexServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    EntityManager em = DBUtil_DAO.createEntityManager();
+	   request.setAttribute("_token", request.getSession().getId());
 
-	    List<Task_DTO> tasks = em.createNamedQuery("getAllTasks",Task_DTO.class).getResultList();
+	   request.setAttribute("task", new Task_DTO());
 
-	    em.close();
-
-	    request.setAttribute("tasks", tasks);
-
-	    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/index.jsp");
-	    rd.forward(request,response);
+	   RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/tasks/new.jsp");
+	   rd.forward(request, response);
 	}
 
 }
