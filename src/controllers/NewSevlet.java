@@ -30,7 +30,8 @@ public class NewSevlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	   request.setAttribute("_token", request.getSession().getId());
+	   //CSRF対策
+	    request.setAttribute("_token", request.getSession().getId());
 
 	   request.setAttribute("task", new Task_DTO());
 
